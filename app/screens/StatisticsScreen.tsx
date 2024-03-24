@@ -6,6 +6,7 @@ import { spacing } from "../theme"
 import {
   LineChart,
 } from "react-native-chart-kit";
+
 export const StatisticsScreen: FC<DemoTabScreenProps<"Statistics">> =
   function StatisticsScreen(_props) {
     return (
@@ -51,15 +52,22 @@ export const StatisticsScreen: FC<DemoTabScreenProps<"Statistics">> =
             }}
             bezier
           />
-        </View>
-
-        <View>
+          <View style={$description}> 
           You are prone to stress these days. You should try to relax and take a break. 
           We suggests you to take a walk in the park.
+          </View>
         </View>
+
+        
       </Screen>
     )
   }
+
+const $description: TextStyle = {
+  fontSize: 16,
+  textAlign: 'center',
+  marginBottom: spacing.lg,
+};
 
 const $container: ViewStyle = {
   paddingTop: spacing.lg + spacing.xl,
