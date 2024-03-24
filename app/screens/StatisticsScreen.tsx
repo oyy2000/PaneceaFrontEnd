@@ -13,7 +13,7 @@ export const StatisticsScreen: FC<DemoTabScreenProps<"Statistics">> =
       <Screen preset="scroll" contentContainerStyle={$container} safeAreaEdges={["top"]}>
         <Text preset="heading" style={$title} > {"Statistics"} </Text>
         <View>
-          <Text>{"Line Chart"} </Text>
+          <Text>{"You are prone to stress these days. You should try to relax and take a break. We suggests you to take a walk in the park."} </Text>
           <LineChart
             data={{
               labels: ["Mar 21", "Mar 22", "Mar 23", "Mar 24", "Mar 25"],
@@ -53,12 +53,10 @@ export const StatisticsScreen: FC<DemoTabScreenProps<"Statistics">> =
             bezier
           />
           <View style={$description}> 
-          You are prone to stress these days. You should try to relax and take a break. 
-          We suggests you to take a walk in the park.
+          
           </View>
         </View>
 
-        
       </Screen>
     )
   }
