@@ -1,8 +1,8 @@
 import React, { FC, useState } from "react"
-import { View, TouchableOpacity, ViewStyle, TextStyle, Animated } from "react-native";
+import { View, TouchableOpacity, ViewStyle, TextStyle } from "react-native";
 import { Screen, Text } from "../components"
 import { DemoTabScreenProps } from "../navigators/DemoNavigator"
-import { spacing } from "../theme"
+import { spacing, colors } from "../theme"
 // Import your audio recording library components here
 import { Audio } from 'expo-av';
 import * as FileSystem from 'expo-file-system';
@@ -14,7 +14,7 @@ export const RecorderScreen: FC<DemoTabScreenProps<"Recorder">> =
     // Function to start recording
     const [recording, setRecording] = useState<Audio.Recording | null>(null);
     const [permissionResponse, requestPermission] = Audio.usePermissions();
-    const [currentMood, setCurrentMood] = useState('angry');
+    const [currentMood, setCurrentMood] = useState('neutral');
 
     const $container: ViewStyle = {
       flex: 1,
@@ -78,14 +78,15 @@ export const RecorderScreen: FC<DemoTabScreenProps<"Recorder">> =
       setRecording(null);
       // Randomize the mood state to simulate a new mood
       const random = Math.random();
-      if (random < 0.25) setCurrentMood('happy');
-      else if (random < 0.5) setCurrentMood('sad');
-      else if (random < 0.75) setCurrentMood('relaxed');
+      if (random < 0.2) setCurrentMood('happy');
+      else if (random < 0.4) setCurrentMood('sad');
+      else if (random < 0.6) setCurrentMood('neutral');
+      else if (random < 0.8) setCurrentMood('relaxed');
       else setCurrentMood('angry'); // Reset the mood state to 'angry'
     }
   
     async function uploadFileToServer(fileUri: string) {
-      const url = "YOUR_SERVER_ENDPOINT"; // Replace with your server endpoint
+      const url = "http://127.0.0.1:5000"; // Replace with your server endpoint
       const filename = fileUri.split('/').pop();
       const formData = new FormData();
       formData.append('file', {
@@ -115,11 +116,9 @@ export const RecorderScreen: FC<DemoTabScreenProps<"Recorder">> =
     return (
       <Screen preset="scroll" contentContainerStyle={$container} safeAreaEdges={["top"]}>
         <Text preset="heading" style={$title}>Mood Meter</Text>
-        <Text style={$description}>{currentMood.toUpperCase()}</Text> {/* status of your mood */}
-       
+        
         <View style={$buttonContainer}>
-        <Text style={$description}>Press the button to start recording audio and touch again for stop. 
-        Then you will get your mood in a period of time.</Text>
+        <Text style={$description}> Tap the button to begin recording your audio. For a moment or longer, you'll discover your mood based on the recording.</Text>
           <TouchableOpacity
             style={[
               $button,
@@ -127,28 +126,30 @@ export const RecorderScreen: FC<DemoTabScreenProps<"Recorder">> =
             ]}
             onPress={recording ? stopRecording : startRecording}
           >
-            <Text style={$buttonText}>
+            <Text>
               {recording ? 'Stop' : 'Start'}
             </Text>
           </TouchableOpacity>
         </View>
+        <View style={$moodContainer}>
+          <Text style={$moodText}>{currentMood.toUpperCase()}</Text> {/* status of your mood */}
+        </View>
       </Screen>
     );
   };
-  
 
   function background(mood: string): string {
     switch (mood) {
       case 'happy':
-        return '#FFD700'; // Gold
+        return '#ffdd94'; // Khaki, a soft yellow
       case 'sad':
-        return '#1E90FF'; // DodgerBlue
+        return '#ccabdb'; // Blue Grey, a muted blue
       case 'angry':
-        return '#DC143C'; // Crimson
+        return '#fa897b'; // Rosy Brown, a softer red
       case 'relaxed':
-        return '#98FB98'; // PaleGreen
+        return '#d0e6a5'; // Light Green, even less saturated
       default:
-        return '#FFFFFF'; // White, as a default background color
+        return colors.background; // White, as a default background color
     }
   }
   
@@ -156,6 +157,17 @@ export const RecorderScreen: FC<DemoTabScreenProps<"Recorder">> =
     marginBottom: spacing.sm,
   };
   
+  const $moodText: TextStyle = {
+    fontSize: 48,
+    fontWeight: 'bold',
+  };
+
+  const $moodContainer: ViewStyle = {
+    height: 150,
+    justifyContent: 'center',
+    alignItems: 'center',
+  };
+
   const $buttonContainer: ViewStyle = {
     justifyContent: 'center',
     alignItems: 'center',
@@ -179,11 +191,10 @@ export const RecorderScreen: FC<DemoTabScreenProps<"Recorder">> =
     // Additional styles for "recording" state could go here
   };
   
-  const $buttonText: TextStyle = {
-    color: 'black',
-  };
-  
+
   const $description: TextStyle = {
     fontSize: 16,
+    textAlign: 'center',
+    marginBottom: spacing.lg,
   };
  

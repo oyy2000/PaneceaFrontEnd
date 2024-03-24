@@ -4,15 +4,15 @@ import React from "react"
 import { TextStyle, ViewStyle } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { Icon } from "../components"
-import { translate } from "../i18n"
-import { DemoShowroomScreen, DemoDebugScreen, RecorderScreen } from "../screens"
-import { DemoPodcastListScreen } from "../screens/DemoPodcastListScreen"
+import { RecorderScreen } from "../screens"
+import { StatisticsScreen } from "../screens/StatisticsScreen"
 import { colors, spacing, typography } from "../theme"
 import { AppStackParamList, AppStackScreenProps } from "./AppNavigator"
 
 export type DemoTabParamList = {
   DemoCommunity: undefined
   Recorder: undefined
+  Statistics: undefined
   DemoShowroom: { queryIndex?: string; itemIndex?: string }
   DemoDebug: undefined
   DemoPodcastList: undefined
@@ -52,7 +52,7 @@ export function DemoNavigator() {
         tabBarItemStyle: $tabBarItem,
       }}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="DemoShowroom"
         component={DemoShowroomScreen}
         options={{
@@ -61,33 +61,32 @@ export function DemoNavigator() {
             <Icon icon="components" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
-      />
+      /> */}
     
 
       <Tab.Screen
         name="Recorder"
         component={RecorderScreen}
         options={{
-          tabBarLabel: "Recorder",
+          tabBarLabel: "Meter",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="community" color={focused ? colors.tint : undefined} size={30} />
+            <Icon icon="view" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
       />
 
       <Tab.Screen
-        name="DemoPodcastList"
-        component={DemoPodcastListScreen}
+        name="Statistics"
+        component={StatisticsScreen}
         options={{
-          tabBarAccessibilityLabel: translate("demoNavigator.podcastListTab"),
-          tabBarLabel: translate("demoNavigator.podcastListTab"),
+          tabBarLabel: "Statistics",
           tabBarIcon: ({ focused }) => (
-            <Icon icon="podcast" color={focused ? colors.tint : undefined} size={30} />
+            <Icon icon="components" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="DemoDebug"
         component={DemoDebugScreen}
         options={{
@@ -96,7 +95,7 @@ export function DemoNavigator() {
             <Icon icon="debug" color={focused ? colors.tint : undefined} size={30} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   )
 }
